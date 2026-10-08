@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMUST · Student Transcript Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #eef2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* MAIN PORTAL CARD */
+        .portal {
+            max-width: 1300px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 30px 60px -20px rgba(0, 20, 50, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* ===== TOP HEADER BAR ===== */
+        .top-bar {
+            background: #0a2f5a;
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid #f5b041;
+        }
+
+        .university-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .crest {
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 22px;
+            color: #0a2f5a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 2px solid #f5b041;
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.2px;
+            line-height: 1.2;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: #b8cde0;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .top-actions .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-actions .search-box i {
+            color: #8ba9c9;
+            font-size: 14px;
+        }
+
+        .top-actions .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 13px;
+            width: 170px;
+            font-weight: 400;
+        }
+
+        .top-actions .search-box input::placeholder {
+            color: #7d99b5;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 14px 6px 10px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        .user-chip .avatar {
+            width: 34px;
+            height: 34px;
+            background: #f5b041;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #0a2f5a;
+        }
+
+        .user-chip .user-info {
+            line-height: 1.2;
+        }
+
+        .user-chip .user-info .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .user-chip .user-info .reg {
+            font-size: 10px;
+            color: #b0c7dc;
+            font-weight: 500;
+        }
+
+        /* ===== SECONDARY NAV ===== */
+        .secondary-nav {
+            background: #ffffff;
+            padding: 0 32px;
+            border-bottom: 1px solid #e2e9f2;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            overflow-x: auto;
+        }
+
+        .secondary-nav a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5f738c;
+            padding: 16px 18px;
+            border-bottom: 3px solid transparent;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+
+        .secondary-nav a.active {
+            color: #0a2f5a;
+            border-bottom-color: #f5b041;
+        }
+
+        .secondary-nav a:hover {
+            color: #0a2f5a;
+            background: #f7faff;
+        }
+
+        /* ===== PAGE CONTENT ===== */
+        .content {
+            padding: 28px 32px 36px;
+        }
+
+        /* Student info banner */
+        .student-banner {
+            background: linear-gradient(135deg, #f8fbff 0%, #eef4fc 100%);
+            border-radius: 18px;
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #dce7f3;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .student-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .student-photo {
+            width: 72px;
+            height: 72px;
+            background: #0a2f5a;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #f5b041;
+            border: 3px solid white;
+            box-shadow: 0 6px 16px rgba(10, 47, 90, 0.2);
+        }
+
+        .student-details h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0a2f5a;
+            letter-spacing: -0.3px;
+        }
+
+        .student-details .meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .student-details .meta span {
+            font-size: 13px;
+            color: #5a6f88;
+            font-weight: 500;
+        }
+
+        .student-details .meta strong {
+            color: #0a2f5a;
+            font-weight: 700;
+        }
+
+        .student-details .program {
+            display: inline-block;
+            margin-top: 8px;
+            background: #e8f0fe;
+            color: #0a2f5a;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #cddff5;
+        }
+
+        .gpa-summary {
+            display: flex;
+            gap: 24px;
+            background: white;
+            padding: 14px 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.06);
+            border: 1px solid #dce7f3;
+        }
+
+        .gpa-box {
+            text-align: center;
+        }
+
+        .gpa-box .label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #7a8ea6;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .gpa-box .value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0a2f5a;
+            margin-top: 2px;
+        }
+
+        .gpa-box .value small {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8a9eb5;
+        }
+
+        .gpa-box .value.gold {
+            color: #d69e2e;
+        }
+
+        /* ===== SEMESTER TABS ===== */
+        .semester-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .semester-tabs button {
+            background: white;
+            border: 1.5px solid #dce7f3;
+            border-radius: 40px;
+            padding: 9px 22px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5f738c;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .semester-tabs button.active {
+            background: #0a2f5a;
+            border-color: #0a2f5a;
+            color: white;
+            box-shadow: 0 6px 14px -6px #0a2f5a90;
+        }
+
+        .semester-tabs button:hover:not(.active) {
+            background: #f5f9ff;
+            border-color: #b8cde0;
+        }
+
+        /* ===== TRANSCRIPT TABLE ===== */
+        .transcript-card {
+            background: white;
+            border-radius: 18px;
+            border: 1px solid #e2e9f2;
+            overflow: hidden;
+            box-shadow: 0 8px 24px -8px rgba(0, 20, 40, 0.08);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 90px 2.2fr 100px 90px 110px;
+            background: #f7faff;
+            padding: 14px 24px;
+            border-bottom: 1px solid #e2e9f2;
+            font-size: 11px;
+            font-weight: 700;
+            color: #6b819c;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .course-row {
+            display: grid;
+            grid-template-columns: 90px 2.2fr 100px 90px 110px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #eef3f9;
+            align-items: center;
+            transition: 0.1s;
+        }
+
+        .course-row:last-child {
+            border-bottom: none;
+        }
+
+        .course-row:hover {
+            background: #fafcff;
+        }
+
+        .course-row .code {
+            font-weight: 700;
+            font-size: 13px;
+            color: #0a2f5a;
+        }
+
+        .course-row .title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #2c3e55;
+            padding-right: 12px;
+        }
+
+        .course-row .credits {
+            font-size: 13px;
+            font-weight: 600;
+            color: #5f738c;
+            text-align: center;
+        }
+
+        .course-row .score {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e3a5f;
+            text-align: center;
+        }
+
+        .course-row .grade {
+            display: flex;
+            justify-content: center;
+        }
+
+        .grade-badge {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 40px;
+            min-width: 52px;
+            text-align: center;
+        }
+
+        .grade-A {
+            background: #e6f7ed;
+            color: #0e7a3e;
+        }
+
+        .grade-B {
+            background: #eaf0fe;
+            color: #1a4d9c;
+        }
+
+        .grade-C {
+            background: #fef6e6;
+            color: #a06800;
+        }
+
+        .grade-D {
+            background: #fdeeee;
+            color: #b32c2c;
+        }
+
+        /* semester summary row */
+        .semester-summary-row {
+            display: grid;
+            grid-template-columns: 90px 2.2fr 100px 90px 110px;
+            padding: 14px 24px;
+            background: #f7faff;
+            border-top: 1px solid #e2e9f2;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0a2f5a;
+            align-items: center;
+        }
+
+        .semester-summary-row .label {
+            grid-column: 2 / 3;
+            font-weight: 600;
+            color: #4c627a;
+        }
+
+        .semester-summary-row .value {
+            font-weight: 800;
+            color: #0a2f5a;
+            text-align: center;
+        }
+
+        .semester-summary-row .gpa-highlight {
+            color: #d69e2e;
+        }
+
+        /* ===== SUMMARY CARDS ===== */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 24px;
+            border: 1px solid #e2e9f2;
+            box-shadow: 0 4px 12px rgba(0, 20, 40, 0.04);
+        }
+
+        .summary-card .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7a8ea6;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .summary-card .value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0a2f5a;
+            margin-top: 6px;
+        }
+
+        .summary-card .value small {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8a9eb5;
+        }
+
+        .summary-card .sub {
+            font-size: 12px;
+            color: #6b819c;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ===== FOOTER ACTIONS ===== */
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e9f2;
+        }
+
+        .footer-actions .official-note {
+            font-size: 11px;
+            color: #889ab0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-actions .official-note i {
+            color: #0a2f5a;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .btn-primary {
+            background: #0a2f5a;
+            color: white;
+            box-shadow: 0 8px 18px -8px #0a2f5a;
+        }
+
+        .btn-primary:hover {
+            background: #0d3d70;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #0a2f5a;
+            border: 1.5px solid #cddff5;
+        }
+
+        .btn-outline:hover {
+            background: #f5f9ff;
+            border-color: #0a2f5a;
+        }
+
+        /* print style */
+        @media print {
+            body { background: white; }
+            .top-bar, .secondary-nav, .footer-actions, .semester-tabs { display: none; }
+            .portal { box-shadow: none; }
+        }
+
+        @media (max-width: 900px) {
+            .table-header, .course-row, .semester-summary-row {
+                grid-template-columns: 70px 1.8fr 70px 70px 80px;
+                padding: 12px 16px;
+            }
+            .content { padding: 20px 16px; }
+            .student-banner { flex-direction: column; align-items: flex-start; }
+            .summary-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal">
+        <!-- TOP HEADER -->
+        <div class="top-bar">
+            <div class="university-brand">
+                <div class="crest">M</div>
+                <div class="brand-text">
+                    <h1>MMUST</h1>
+                    <p>Masinde Muliro University of Science and Technology</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search courses, transcripts...">
+                </div>
+                <div class="user-chip">
+                    <div class="avatar">AK</div>
+                    <div class="user-info">
+                        <div class="name">Branton tajeu</div>
+                        <div class="reg">BJM/B/01-03701/2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECONDARY NAV -->
+        <div class="secondary-nav">
+            <a href="#" class="active">Transcript</a>
+            <a href="#">Course Registration</a>
+            <a href="#">Fees Statement</a>
+            <a href="#">Exam Results</a>
+            <a href="#">Graduation</a>
+            <a href="#">Support</a>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content">
+            <!-- Student Info Banner -->
+            <div class="student-banner">
+                <div class="student-profile">
+                    <div class="student-photo">AK</div>
+                    <div class="student-details">
+                        <h2>Branton tajeu</h2>
+                        <div class="meta">
+                            <span><strong>Reg No:</strong> BJM/B/01-03701/2025</span>
+                            <span><strong>Faculty:</strong> School of social science</span>
+                            <span><strong>Year:</strong> 3rd Year</span>
+                        </div>
+                        <div class="program">BSc.journalism (Honours)</div>
+                    </div>
+                </div>
+                <div class="gpa-summary">
+                    <div class="gpa-box">
+                        <div class="label">Cumulative GPA</div>
+                        <div class="value gold">3.72 <small>/ 4.00</small></div>
+                    </div>
+                    <div class="gpa-box">
+                        <div class="label">Total Credits</div>
+                        <div class="value">124 <small>/ 148</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Semester Tabs -->
+            <div class="semester-tabs" id="semesterTabs">
+                <button data-sem="y1s1" class="active">Year 1 · Sem 1</button>
+                <button data-sem="y1s2">Year 1 · Sem 2</button>
+                <button data-sem="y2s1">Year 2 · Sem 1</button>
+                <button data-sem="y2s2">Year 2 · Sem 2</button>
+                <button data-sem="y3s1">Year 3 · Sem 1</button>
+            </div>
+
+            <!-- Transcript Table Card -->
+            <div class="transcript-card">
+                <div class="table-header">
+                    <span>Code</span>
+                    <span>Course Title</span>
+                    <span style="text-align:center;">Credits</span>
+                    <span style="text-align:center;">Score</span>
+                    <span style="text-align:center;">Grade</span>
+                </div>
+                <div id="courseTableBody">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-row">
+                <div class="summary-card">
+                    <div class="label">Semester GPA</div>
+                    <div class="value" id="semesterGpa">3.78 <small>/ 4.00</small></div>
+                    <div class="sub" id="semesterCredits">18 credits · 6 courses</div>
+                </div>
+                <div class="summary-card">
+                    <div class="label">Cumulative GPA</div>
+                    <div class="value gold">3.72 <small>/ 4.00</small></div>
+                    <div class="sub">All semesters to date</div>
+                </div>
+                <div class="summary-card">
+                    <div class="label">Academic Standing</div>
+                    <div class="value" style="color:#0e7a3e;">First Class</div>
+                    <div class="sub">Dean's List · 2024/2025</div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="footer-actions">
+                <div class="official-note">
+                    <i class="fas fa-shield-alt"></i> Official transcript · Verified by MMUST Registrar
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button class="btn btn-primary" onclick="downloadTranscript()">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATA FOR ALL SEMESTERS =====
+        const transcriptData = {
+            'y1s1': {
+                courses: [
+                    { code: 'CCS 101', title: 'Introduction to Computer Science', credits: 3, score: 82, grade: 'A' },
+                    { code: 'MAT 101', title: 'Calculus I', credits: 3, score: 78, grade: 'B' },
+                    { code: 'PHY 101', title: 'Physics for Engineers', credits: 3, score: 74, grade: 'B' },
+                    { code: 'ENG 101', title: 'Communication Skills', credits: 2, score: 88, grade: 'A' },
+                    { code: 'CSS 101', title: 'Computer Organization', credits: 3, score: 71, grade: 'B' },
+                    { code: 'STA 101', title: 'Introduction to Statistics', credits: 3, score: 80, grade: 'A' }
+                ],
+                gpa: 3.58,
+                totalCredits: 17
+            },
+            'y1s2': {
+                courses: [
+                    { code: 'CCS 102', title: 'Programming in C', credits: 3, score: 86, grade: 'A' },
+                    { code: 'MAT 102', title: 'Calculus II', credits: 3, score: 75, grade: 'B' },
+                    { code: 'PHY 102', title: 'Electricity & Magnetism', credits: 3, score: 69, grade: 'C' },
+                    { code: 'CSS 102', title: 'Discrete Structures', credits: 3, score: 81, grade: 'A' },
+                    { code: 'ENG 102', title: 'Technical Writing', credits: 2, score: 85, grade: 'A' },
+                    { code: 'STA 102', title: 'Probability Methods', credits: 3, score: 77, grade: 'B' }
+                ],
+                gpa: 3.48,
+                totalCredits: 17
+            },
+            'y2s1': {
+                courses: [
+                    { code: 'CCS 201', title: 'Data Structures & Algorithms', credits: 4, score: 84, grade: 'A' },
+                    { code: 'CCS 203', title: 'Database Systems', credits: 3, score: 79, grade: 'B' },
+                    { code: 'MAT 201', title: 'Linear Algebra', credits: 3, score: 72, grade: 'B' },
+                    { code: 'CSS 201', title: 'Object Oriented Programming', credits: 3, score: 88, grade: 'A' },
+                    { code: 'CCS 205', title: 'Operating Systems', credits: 3, score: 76, grade: 'B' },
+                    { code: 'ENG 201', title: 'Research Methods', credits: 2, score: 82, grade: 'A' }
+                ],
+                gpa: 3.68,
+                totalCredits: 18
+            },
+            'y2s2': {
+                courses: [
+                    { code: 'CCS 202', title: 'Computer Networks', credits: 3, score: 85, grade: 'A' },
+                    { code: 'CCS 204', title: 'Software Engineering', credits: 3, score: 80, grade: 'A' },
+                    { code: 'CCS 206', title: 'Web Development', credits: 3, score: 91, grade: 'A' },
+                    { code: 'MAT 202', title: 'Numerical Analysis', credits: 3, score: 68, grade: 'C' },
+                    { code: 'CSS 202', title: 'Theory of Computation', credits: 3, score: 73, grade: 'B' },
+                    { code: 'STA 202', title: 'Statistical Computing', credits: 3, score: 78, grade: 'B' }
+                ],
+                gpa: 3.54,
+                totalCredits: 18
+            },
+            'y3s1': {
+                courses: [
+                    { code: 'CCS 301', title: 'Artificial Intelligence', credits: 4, score: 89, grade: 'A' },
+                    { code: 'CCS 303', title: 'Advanced Algorithms', credits: 3, score: 83, grade: 'A' },
+                    { code: 'CCS 305', title: 'Mobile App Development', credits: 3, score: 92, grade: 'A' },
+                    { code: 'CCS 307', title: 'Machine Learning', credits: 4, score: 87, grade: 'A' },
+                    { code: 'CSS 301', title: 'Compiler Construction', credits: 3, score: 74, grade: 'B' },
+                    { code: 'ENG 301', title: 'Entrepreneurship', credits: 2, score: 81, grade: 'A' }
+                ],
+                gpa: 3.78,
+                totalCredits: 19
+            }
+        };
+
+        // ===== DOM ELEMENTS =====
+        const courseTableBody = document.getElementById('courseTableBody');
+        const semesterGpaEl = document.getElementById('semesterGpa');
+        const semesterCreditsEl = document.getElementById('semesterCredits');
+        const semesterTabs = document.getElementById('semesterTabs');
+
+        // ===== RENDER FUNCTION =====
+        function renderSemester(semKey) {
+            const data = transcriptData[semKey];
+            if (!data) return;
+
+            // Clear table
+            courseTableBody.innerHTML = '';
+
+            // Populate course rows
+            data.courses.forEach(course => {
+                const row = document.createElement('div');
+                row.className = 'course-row';
+                row.innerHTML = `
+                    <span class="code">${course.code}</span>
+                    <span class="title">${course.title}</span>
+                    <span class="credits">${course.credits}</span>
+                    <span class="score">${course.score}</span>
+                    <span class="grade"><span class="grade-badge grade-${course.grade}">${course.grade}</span></span>
+                `;
+                courseTableBody.appendChild(row);
+            });
+
+            // Add semester summary row
+            const totalScore = data.courses.reduce((sum, c) => sum + c.score, 0);
+            const avgScore = (totalScore / data.courses.length).toFixed(1);
+            const summaryRow = document.createElement('div');
+            summaryRow.className = 'semester-summary-row';
+            summaryRow.innerHTML = `
+                <span></span>
+                <span class="label">Semester Average / GPA</span>
+                <span class="value">${data.totalCredits} cr</span>
+                <span class="value">${avgScore}%</span>
+                <span class="value gpa-highlight">${data.gpa.toFixed(2)}</span>
+            `;
+            courseTableBody.appendChild(summaryRow);
+
+            // Update summary cards
+            semesterGpaEl.innerHTML = `${data.gpa.toFixed(2)} <small>/ 4.00</small>`;
+            semesterCreditsEl.textContent = `${data.totalCredits} credits · ${data.courses.length} courses`;
+        }
+
+        // ===== TAB HANDLING =====
+        semesterTabs.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            // Remove active class from all
+            semesterTabs.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const semKey = btn.dataset.sem;
+            renderSemester(semKey);
+        });
+
+        // ===== INITIAL RENDER =====
+        renderSemester('y1s1');
+
+        // ===== DOWNLOAD FUNCTION (simulated) =====
+        function downloadTranscript() {
+            // Create a simple text representation and trigger download
+            const activeSem = document.querySelector('.semester-tabs button.active').dataset.sem;
+            const data = transcriptData[activeSem];
+            let content = `MMUST OFFICIAL TRANSCRIPT\n`;
+            content += `Student: branton tajeu| Reg: BJM/B/01-03701/2025\n`;
+            content += `Program: BSc. Journalism (Honours)\n`;
+            content += `Semester: ${document.querySelector('.semester-tabs button.active').textContent}\n\n`;
+            content += `CODE\tCOURSE\tCREDITS\tSCORE\tGRADE\n`;
+            content += `--------------------------------------------------------\n`;
+            data.courses.forEach(c => {
+                content += `${c.code}\t${c.title}\t${c.credits}\t${c.score}\t${c.grade}\n`;
+            });
+            content += `\nSemester GPA: ${data.gpa.toFixed(2)} | Total Credits: ${data.totalCredits}\n`;
+            content += `Cumulative GPA: 3.72\n`;
+            content += `\nGenerated: ${new Date().toLocaleString()}\n`;
+            content += `This is a computer-generated transcript.`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MMUST_Transcript_${activeSem}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Expose to global for the button
+        window.downloadTranscript = downloadTranscript;
+    </script>
+</body>
+</html>
